@@ -5,8 +5,9 @@ router.get("/articles", (req, res) => {
     res.send("Rota de articles")
 });
 
-router.get("/admin/articles", (req, res) => {
-    res.send("Rota do admin articles")
+router.get("/admin/articles/new", (req, res) => {
+    res.render("admin/articles/new")
+    console.log('Rodando')
 });
 
 module.exports = router;

@@ -29,7 +29,7 @@ connection
     })
 
 app.use('/', categoriesController) // Pode ser também usado algum prefixo, como pode ser visto no linha de baixo 
-app.use('/controller', articlesController)
+app.use('/', articlesController)
 
 app.get('/', (req, res) => {
     res.render('index');
