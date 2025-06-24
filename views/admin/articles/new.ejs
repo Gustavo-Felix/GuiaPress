@@ -11,7 +11,7 @@
             <form method="POST" action="/articles/save">
                 <input class="form-control" type="text" name="title" placeholder="Defina o titulo do artigo">
                 <br>
-                <textarea class="form-control" placeholder="Escreva o artigo aqui!" name="body"></textarea>
+                <textarea class="form-control" placeholder="Escreva o artigo aqui!" name="body" id="article"></textarea>
                 <br>
                 <button class="btn btn-success">Cadastrar</button>
             </form>
@@ -20,3 +20,34 @@
 </div>
 
 <%- include ('../../partials/footer.ejs') %>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/tinymce.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.6/jquery.tinymce.min.js"></script> -->
+<script src="/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+
+    tinymce.init({
+        selector: "#article",
+        plugins: [
+            'advlist ',
+            'autolink',
+            'link',
+            'image',
+            'lists',
+            'print',
+            'preview',
+            'hr',
+            'searchreplace',
+            'wordcount',
+            'fullscreen',
+            'insertdatetime',
+            'media',
+            'save',
+            'table',
+            'paste',
+            'emoticons',
+
+        ]
+    });
+</script>
