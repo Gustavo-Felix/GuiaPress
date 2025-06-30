@@ -20,7 +20,17 @@
             </tr>
         </thead>
         <tbody>
-            
+            <% articles.forEach((article) => { %>
+                <tr>
+                    <th><%= article.id %></th>
+                    <th><%= article.title %></th>
+                    <th><%= article.slug %></th>
+                    <th><%= article.categoryId.title %></th>
+                    <th>
+                        Ações
+                    </th>
+                </tr>
+            <% }); %>
         </tbody>
     </table>
 </div>
