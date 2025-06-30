@@ -37,7 +37,10 @@ app.get('/', (req, res) => {
             ["id", "DESC"]
         ]
     }).then((articles) => {
-        res.render("index", {articles: articles})
+        Category.findAll().then((categories) => {
+            res.render("index", {articles: articles, categories: categories})
+
+        });
     });
 });
 
@@ -49,7 +52,9 @@ app.get('/:slug', (req, res) => {
         }
     }).then((article) => {
         if(article != undefined){
-            res.render('article', {article:article})
+            Category.findAll().then((categories) => {
+                res.render("article", {articles: articles, categories: categories});
+            });
         }else{
             res.redirect('/')
         }
