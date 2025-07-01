@@ -26,6 +26,10 @@
     </div>
 </div>
 
+<div id="content" style="display: none;">
+    <%= article.body %>
+</div>
+
 <%- include ('../../partials/footer.ejs') %>
 
 <script src="/tinymce/js/tinymce/tinymce.min.js"></script>
@@ -52,6 +56,9 @@
             'paste',
             'emoticons',
 
-        ]
+        ],
+        init_instance_callback: () => {
+            tinymce.activeEditor.setContent(document.getElementById('content').innerHTML);
+        }
     });
 </script>
