@@ -103,21 +103,24 @@ router.get("/articles/page/:num", (req, res) => {
         limit: 4,
         offset: offset
     }).then((articles) => {
-
-
         var next;
+
         if(offset + 4 >= articles.count){
             next = false;
-        }else{
+        }
+        else{
             next = true;
         }
+
         var result = {
             next: next,
             articles: articles
         }
-
-
-        res.json(result);
+        
+        Category.findAll().then((categories) => {
+            res.render("admin/articles/page", {result: result, categories: categories})
+        });
+        // res.json(result);
     });
 });
 
