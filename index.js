@@ -26,7 +26,7 @@ connection
         console.log('Conexão feita com sucesso!');
     }).catch((erro) => {
         console.log(erro);
-    })
+    });
 
 app.use('/', categoriesController) // Pode ser também usado algum prefixo, como pode ser visto no linha de baixo 
 app.use('/', articlesController)
@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
         ]
     }).then((articles) => {
         Category.findAll().then((categories) => {
-            res.render("index", {articles: articles, categories: categories})
+            res.render("index", {articles: articles, categories: categories});
 
         });
     });
@@ -56,12 +56,32 @@ app.get('/:slug', (req, res) => {
                 res.render("article", {articles: articles, categories: categories});
             });
         }else{
-            res.redirect('/')
+            res.redirect('/');
         }
     }).catch((erro) => {
-        res.redirect('/')
-    })
-})
+        res.redirect('/');
+    });
+});
+
+app.get('/categories/:slug', (req, res) => {
+    var slug = req.params.slug;
+    Category.findOne({
+        where: {
+            slug: slug
+        },
+        include: [{model: Article}]
+    }).then((category) => {
+        if(category != undefined){
+            Category.findAll().then((categories) => {
+                res.render('index', {articles: category.articles, categories: categories});
+            });
+        }else{
+            res.redirect("/");
+        }
+    }).catch((erro) => {
+        res.redirect("/");
+    });
+});
 
 app.listen(8000, () => {
     console.log('O Servidor está rodando!');
