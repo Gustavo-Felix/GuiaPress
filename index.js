@@ -46,7 +46,6 @@ app.use('/', usersController);
 // Rotas de sessão - Exemplo
 app.get("/session", (req, res) => {
     req.session.treinamento = "Curso de Node.js";
-    req.session.ano = 2025;
     res.send("Sessão criada com sucesso!");
 });
 
@@ -59,14 +58,31 @@ app.get("/leitura", (req, res) => {
 
 app.get('/', (req, res) => {
     Article.findAll({
+        limit: 4,
         order:[
             ["id", "DESC"]
-        ],
-        limit: 4
+        ]
     }).then((articles) => {
-        Category.findAll().then((categories) => {
-            res.render("index", {articles: articles, categories: categories});
+        var next;
 
+        if(4 < articles.length){
+            next = false;
+        }
+        else{
+            next = true;
+        }
+
+        var result = {
+            next: next,
+            articles: articles
+        }
+        
+        Category.findAll().then((categories) => {
+            res.render("index", {articles: articles, categories: categories, user: req.session.user, result: result});
+            console.log(req.session.user);
+            console.log(articles.length);
+            console.log(result.next);  
+ 
         });
     });
 });
@@ -80,7 +96,7 @@ app.get('/:slug', (req, res) => {
     }).then((article) => {
         if(article != undefined){
             Category.findAll().then((categories) => {
-                res.render("article", {article: article, categories: categories});
+                res.render("article", {article: article, categories: categories, user: req.session.user});
             });
         }else{
             res.redirect('/');
@@ -100,7 +116,7 @@ app.get('/categories/:slug', (req, res) => {
     }).then((category) => {
         if(category != undefined){
             Category.findAll().then((categories) => {
-                res.render('index', {articles: category.articles, categories: categories});
+                res.render('index', {articles: category.articles, categories: categories, user: req.session.user, result: false});
             });
         }else{
             res.redirect("/");

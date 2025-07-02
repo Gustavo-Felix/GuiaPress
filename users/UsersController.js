@@ -39,7 +39,7 @@ router.post('/users/create', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-    res.render("admin/users/login");
+    res.render("admin/users/login", {user: req.session.user});
 });
 
 router.post("/authenticate", (req, res) => {
@@ -68,6 +68,11 @@ router.post("/authenticate", (req, res) => {
             res.redirect("/login")
         }
     });
+});
+
+router.get('/logout', adminAuth, (req, res) => {
+    req.session.user = undefined;
+    res.redirect("/");
 });
 
 module.exports = router;

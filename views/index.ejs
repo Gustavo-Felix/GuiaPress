@@ -17,8 +17,10 @@
         <% }); %>
         <div class="row">
             <div class="col">
-                <hr>
-                <a style="float: right;" href="/articles/page/2">Próxima >>></a>
+                <% if(result.next == true) { %>
+                    <hr>
+                    <a style="float: right;" href="/articles/page/2">Próxima >>></a>
+                <% } %>
             </div>
         </div>
         <hr>

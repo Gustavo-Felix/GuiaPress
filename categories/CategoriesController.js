@@ -6,7 +6,7 @@ const adminAuth = require('../middlewares/adminAuth');
 
 
 router.get("/admin/categories/new", adminAuth, (req, res) => {
-    res.render("admin/categories/new");
+    res.render("admin/categories/new", {user: req.session.user});
 });
 
 router.post("/categories/save", adminAuth, (req, res) => {
@@ -30,7 +30,8 @@ router.get("/admin/categories", adminAuth, (req, res) => {
         ['id', 'ASC'] 
     ] }).then((categories) => {
         res.render('admin/categories/index', {
-            categories: categories
+            categories: categories,
+            user: req.session.user
         });
     });
 });
@@ -64,7 +65,7 @@ router.get("/admin/categories/edit/:id", adminAuth, (req, res) => {
     Category.findByPk(id).then(category => {
         if(category != undefined){
 
-            res.render("admin/categories/edit",{category: category});
+            res.render("admin/categories/edit",{category: category, user: req.session.user});
 
         }else{
             res.redirect("/admin/categories");

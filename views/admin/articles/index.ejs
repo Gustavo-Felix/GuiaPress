@@ -25,7 +25,11 @@
                     <th><%= article.id %></th>
                     <th><%= article.title %></th>
                     <th><%= article.slug %></th>
-                    <th><%= article.category.title %></th>
+                    <% if(article.category != undefined) { %>
+                        <th><%= article.category.title %></th>
+                    <% } else {%>
+                        <th style="color: red;">Sem-categoria</th>
+                    <% } %>
                     <th>
                         <a href="/admin/articles/edit/<%= article.id %>" class="btn btn-warning">Editar</a>
                         <form method="POST" action="/articles/delete" style="display: inline;" onsubmit="confirmarDelete(event, this)">
