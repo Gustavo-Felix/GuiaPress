@@ -1,4 +1,5 @@
 const expreess = require('express');
+const bcrypt = require('bcryptjs');
 const router = expreess.Router();
 const User = require('./User');
 
@@ -14,10 +15,16 @@ router.get('/admin/users/create', (req, res) => {
 router.post('/users/create', (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
+    var salt = bcrypt.genSaltSync(10);
+    var hash = bcrypt.hashSync(password, salt);
 
-    res.json({
+    User.create({
         email: email,
-        password: password
+        password: hash
+    }).then(() => {
+        res.redirect('/');
+    }).catch((erro) => {
+        res.redirect('/');
     });
 });
 
