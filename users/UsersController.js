@@ -4,7 +4,9 @@ const router = expreess.Router();
 const User = require('./User');
 
 router.get('/admin/users', (req, res) => {
-    res.send("Página de usuários");
+    User.findAll().then((users) => {
+        res.render("admin/users/index", {users: users});
+    })
 
 });
 
