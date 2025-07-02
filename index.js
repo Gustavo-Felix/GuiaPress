@@ -15,7 +15,7 @@ const User = require('./users/User');
 // View engine
 app.set('view engine', 'ejs');
 
-// session
+// session - storage padrão - Não recomendável
 app.use(session({
     secret: "pq0912oiewh87vy67",
     cookie: {
@@ -39,9 +39,23 @@ connection
         console.log(erro);
     });
 
-app.use('/', categoriesController) // Pode ser também usado algum prefixo, como pode ser visto no linha de baixo 
-app.use('/', articlesController)
+app.use('/', categoriesController); // Pode ser também usado algum prefixo, como pode ser visto no linha de baixo 
+app.use('/', articlesController);
 app.use('/', usersController);
+
+// Rotas de sessão - Exemplo
+app.get("/session", (req, res) => {
+    req.session.treinamento = "Curso de Node.js";
+    req.session.ano = 2025;
+    res.send("Sessão criada com sucesso!");
+});
+
+app.get("/leitura", (req, res) => {
+    res.json({
+        treinamento: req.session.treinamento,
+        ano: req.session.ano
+    })
+});
 
 app.get('/', (req, res) => {
     Article.findAll({
