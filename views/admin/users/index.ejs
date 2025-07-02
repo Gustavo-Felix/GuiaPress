@@ -15,8 +15,10 @@
         </thead>
         <tbody>
             <% users.forEach((user) => { %>
-                <td><%= user.id %></td>
-                <td><%= user.email %></td>
+                <tr>
+                    <td><%= user.id %></td>
+                    <td><%= user.email %></td>
+                </tr>
             <% }) %>
         </tbody>
     </table>

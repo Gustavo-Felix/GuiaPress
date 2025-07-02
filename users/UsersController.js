@@ -2,6 +2,7 @@ const expreess = require('express');
 const bcrypt = require('bcryptjs');
 const router = expreess.Router();
 const User = require('./User');
+const { where } = require('sequelize');
 
 router.get('/admin/users', (req, res) => {
     User.findAll().then((users) => {
@@ -17,16 +18,23 @@ router.get('/admin/users/create', (req, res) => {
 router.post('/users/create', (req, res) => {
     var email = req.body.email;
     var password = req.body.password;
-    var salt = bcrypt.genSaltSync(10);
-    var hash = bcrypt.hashSync(password, salt);
 
-    User.create({
-        email: email,
-        password: hash
-    }).then(() => {
-        res.redirect('/');
-    }).catch((erro) => {
-        res.redirect('/');
+    User.findOne({where: {email: email}}).then((user) => {
+        if (user == undefined) {
+            var salt = bcrypt.genSaltSync(10);
+            var hash = bcrypt.hashSync(password, salt);
+
+            User.create({
+                email: email,
+                password: hash
+            }).then(() => {
+                res.redirect('/');
+            }).catch((erro) => {
+                res.redirect('/');
+            });
+        }else {
+            res.render('admin/users/create');
+        }
     });
 });
 
